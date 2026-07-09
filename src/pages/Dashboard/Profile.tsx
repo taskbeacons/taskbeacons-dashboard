@@ -89,6 +89,24 @@ export const Profile: React.FC = () => {
 
       <form onSubmit={handleSave} className="space-y-6">
         <div className="bg-[#121212] border border-white/5 rounded-3xl p-6 sm:p-8">
+          {/* Read-Only Firebase Metadata */}
+          {user?.uid && (
+            <div className="mb-8 grid grid-cols-1 sm:grid-cols-3 gap-4 border-b border-white/5 pb-6">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-white/50 mb-1 font-mono">Firebase UID</p>
+                <p className="text-xs text-white/80 font-mono truncate">{user.uid}</p>
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-white/50 mb-1 font-mono">Account Created</p>
+                <p className="text-xs text-white/80 font-mono truncate">{user.createdAt ? new Date(user.createdAt).toLocaleString() : 'N/A'}</p>
+              </div>
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-white/50 mb-1 font-mono">Last Login</p>
+                <p className="text-xs text-white/80 font-mono truncate">{user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleString() : 'N/A'}</p>
+              </div>
+            </div>
+          )}
+
           <div className="flex flex-col sm:flex-row gap-8 items-start">
             
             {/* Avatar picker container */}

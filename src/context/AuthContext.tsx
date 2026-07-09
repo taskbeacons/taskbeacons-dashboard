@@ -1,13 +1,28 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  signOut, 
+  sendPasswordResetEmail,
+  onAuthStateChanged,
+  updateProfile as updateFirebaseProfile,
+  GoogleAuthProvider,
+  signInWithPopup
+} from 'firebase/auth';
+import { auth } from '../firebase/firebase';
+import { getAuthErrorMessage } from '../firebase/auth';
 
 export interface UserProfile {
   name: string;
   email: string;
-  company: string;
-  phone: string;
-  timezone: string;
-  language: string;
-  avatar: string;
+  uid: string;
+  company?: string;
+  phone?: string;
+  timezone?: string;
+  language?: string;
+  avatar?: string;
+  createdAt?: string;
+  lastLoginAt?: string;
 }
 
 interface AuthContextType {
@@ -15,18 +30,17 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, company: string) => Promise<void>;
+  register: (name: string, email: string, company: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (profile: Partial<UserProfile>) => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
+  signInWithGoogle: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Initial mock user profile
-const INITIAL_MOCK_USER: UserProfile = {
-  name: "Pavith Nimantha",
-  email: "pavith@taskbeacons.com",
+// Fallback values for data not natively stored in Firebase Auth
+const FALLBACK_DATA = {
   company: "TaskBeacons Inc.",
   phone: "+1 (555) 019-2834",
   timezone: "Asia/Colombo",
@@ -40,76 +54,83 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    // Check if user session exists in localStorage
-    const savedUser = localStorage.getItem('tb_user');
-    const savedAuth = localStorage.getItem('tb_auth');
-    if (savedUser && savedAuth === 'true') {
-      setUser(JSON.parse(savedUser));
-      setIsAuthenticated(true);
-    }
-    setIsLoading(false);
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        // Map Firebase user to our UserProfile format
+        setUser({
+          name: firebaseUser.displayName || 'Agent',
+          email: firebaseUser.email || '',
+          uid: firebaseUser.uid,
+          createdAt: firebaseUser.metadata.creationTime,
+          lastLoginAt: firebaseUser.metadata.lastSignInTime,
+          ...FALLBACK_DATA // Temporary until Firestore is integrated
+        });
+        setIsAuthenticated(true);
+      } else {
+        setUser(null);
+        setIsAuthenticated(false);
+      }
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
-  const login = async (email: string, _password: string) => {
-    setIsLoading(true);
-    // Simulate API network request
-    await new Promise(resolve => setTimeout(resolve, 800));
-
-    // Simple mock logic
-    const mockUser = {
-      ...INITIAL_MOCK_USER,
-      email: email.trim(),
-    };
-    setUser(mockUser);
-    setIsAuthenticated(true);
-    localStorage.setItem('tb_user', JSON.stringify(mockUser));
-    localStorage.setItem('tb_auth', 'true');
-    setIsLoading(false);
+  const login = async (email: string, password: string) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      throw new Error(getAuthErrorMessage(error));
+    }
   };
 
-  const register = async (name: string, email: string, company: string) => {
-    setIsLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 1000));
+  const register = async (name: string, email: string, company: string, password: string) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      
+      // Update the display name in Firebase Auth natively
+      await updateFirebaseProfile(userCredential.user, {
+        displayName: name
+      });
 
-    const mockUser = {
-      ...INITIAL_MOCK_USER,
-      name,
-      email: email.trim(),
-      company,
-    };
-    setUser(mockUser);
-    setIsAuthenticated(true);
-    localStorage.setItem('tb_user', JSON.stringify(mockUser));
-    localStorage.setItem('tb_auth', 'true');
-    setIsLoading(false);
+      // Update local state temporarily to reflect new name without refresh
+      setUser(prev => prev ? { ...prev, name, company } : null);
+
+    } catch (error) {
+      throw new Error(getAuthErrorMessage(error));
+    }
   };
 
   const logout = async () => {
-    setIsLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 500));
-    setUser(null);
-    setIsAuthenticated(false);
-    localStorage.removeItem('tb_user');
-    localStorage.removeItem('tb_auth');
-    setIsLoading(false);
+    try {
+      await signOut(auth);
+    } catch (error) {
+      throw new Error(getAuthErrorMessage(error));
+    }
   };
 
   const updateProfile = async (profileUpdate: Partial<UserProfile>) => {
-    setIsLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 800));
+    // In the future: write to Firestore
     if (user) {
-      const updated = { ...user, ...profileUpdate };
-      setUser(updated);
-      localStorage.setItem('tb_user', JSON.stringify(updated));
+      setUser({ ...user, ...profileUpdate });
     }
-    setIsLoading(false);
   };
 
   const forgotPassword = async (email: string) => {
-    setIsLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 800));
-    console.log(`Mock reset password email sent to: ${email}`);
-    setIsLoading(false);
+    try {
+      await sendPasswordResetEmail(auth, email);
+    } catch (error) {
+      throw new Error(getAuthErrorMessage(error));
+    }
+  };
+
+  const signInWithGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+    } catch (error) {
+      throw new Error(getAuthErrorMessage(error));
+    }
   };
 
   return (
@@ -121,7 +142,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       register,
       logout,
       updateProfile,
-      forgotPassword
+      forgotPassword,
+      signInWithGoogle
     }}>
       {children}
     </AuthContext.Provider>

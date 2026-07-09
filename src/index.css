@@ -1,0 +1,126 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    @apply bg-[#0a0a0a] text-white antialiased font-sans overflow-x-hidden;
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+
+/* Custom grid patterns */
+.bg-grid-pattern {
+  background-size: 30px 30px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+}
+
+/* Pulse animation for active nodes */
+@keyframes activePulse {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.2);
+  }
+}
+
+.animate-active-pulse {
+  animation: activePulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Hide spin buttons for numbers */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Custom glow effect */
+.glow-brand {
+  box-shadow: 0 0 20px rgba(0, 212, 180, 0.15);
+}
+
+.glow-brand-lg {
+  box-shadow: 0 0 40px rgba(0, 212, 180, 0.25);
+}
+
+/* Reset root defaults of template */
+#root {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  text-align: left !important;
+  border-inline: none !important;
+  min-height: auto !important;
+  display: block !important;
+}
+
+/* Secondary button global override */
+button.bg-white\/5,
+a.bg-white\/5,
+button[class*="bg-white/5"],
+a[class*="bg-white/5"] {
+  background-color: #2A2A2A !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35) !important;
+  opacity: 1 !important;
+  transition: all 200ms ease !important;
+}
+
+button.bg-white\/5 svg,
+a.bg-white\/5 svg,
+button[class*="bg-white/5"] svg,
+a[class*="bg-white/5"] svg {
+  color: #FFFFFF !important;
+  stroke: currentColor !important;
+}
+
+button.bg-white\/5:hover,
+a.bg-white\/5:hover,
+button[class*="bg-white/5"]:hover,
+a[class*="bg-white/5"]:hover {
+  background-color: #363636 !important;
+  border: 1px solid rgba(0, 212, 180, 0.35) !important;
+  color: #FFFFFF !important;
+}
+
+button.bg-white\/5:hover svg,
+a.bg-white\/5:hover svg,
+button[class*="bg-white/5"]:hover svg,
+a[class*="bg-white/5"]:hover svg {
+  color: #FFFFFF !important;
+  stroke: currentColor !important;
+}
+
+button.bg-white\/5:focus,
+a.bg-white\/5:focus,
+button[class*="bg-white/5"]:focus,
+a[class*="bg-white/5"]:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(0, 212, 180, 0.4) !important;
+}
+
+
+

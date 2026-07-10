@@ -6,6 +6,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { Sidebar } from './components/Sidebar';
 import { Navbar } from './components/Navbar';
 import type { NotificationItem } from './components/Navbar';
+import ScrollToTop from './components/common/ScrollToTop';
 
 // Auth Pages
 import { Login } from './pages/Auth/Login';
@@ -152,6 +153,7 @@ const DashboardLayout: React.FC = () => {
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <AuthProvider>
         <ToastProvider>
           <Routes>

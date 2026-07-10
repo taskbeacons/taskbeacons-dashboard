@@ -77,8 +77,8 @@ export const Register: React.FC = () => {
 
   return (
     <AuthLayout>
-      <div className="mb-8 mt-12 lg:mt-0">
-        <h2 className="text-3xl font-black text-white uppercase tracking-tight mb-2">
+      <div className="mt-12 mb-8 lg:mt-0">
+        <h2 className="mb-2 text-3xl font-black tracking-tight text-white uppercase">
           Create Your Workspace
         </h2>
         <p className="text-sm text-white/50">
@@ -147,19 +147,19 @@ export const Register: React.FC = () => {
             <input
               id="terms"
               type="checkbox"
-              className="h-4 w-4 rounded border-white/20 bg-black text-brand focus:ring-brand focus:ring-offset-black"
+              className="w-4 h-4 bg-black rounded border-white/20 text-brand focus:ring-brand focus:ring-offset-black"
               {...register('terms')}
             />
           </div>
-          <label htmlFor="terms" className="ml-2 block text-xs text-white/50 leading-tight">
+          <label htmlFor="terms" className="block ml-2 text-xs leading-tight text-white/50">
             I agree to the{' '}
-            <Link to="#" className="text-brand hover:underline">Terms of Service</Link>
+            <a href="http://taskbeacons.com/terms-of-service" target="_blank" rel="noopener noreferrer" className="text-brand hover:underline">Terms of Service</a>
             {' '}and{' '}
-            <Link to="#" className="text-brand hover:underline">Privacy Policy</Link>.
+            <a href="http://taskbeacons.com/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-brand hover:underline">Privacy Policy</a>.
           </label>
         </div>
         {errors.terms && (
-          <p className="mt-1 text-xs text-red-400 font-semibold">{errors.terms.message}</p>
+          <p className="mt-1 text-xs font-semibold text-red-400">{errors.terms.message}</p>
         )}
 
         <Button 
@@ -192,9 +192,9 @@ export const Register: React.FC = () => {
         Continue with Google
       </Button>
 
-      <p className="mt-8 text-center text-xs text-white/50">
+      <p className="mt-8 text-xs text-center text-white/50">
         Already have an account?{' '}
-        <Link to="/login" className="font-semibold text-brand hover:text-brand-hover transition-colors">
+        <Link to="/login" className="font-semibold transition-colors text-brand hover:text-brand-hover">
           Sign In
         </Link>
       </p>

@@ -121,23 +121,23 @@ export const Navbar: React.FC<NavbarProps> = ({
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ duration: 0.15 }}
-                  className="absolute right-0 mt-2 w-80 bg-[#121212] border border-white/5 rounded-2xl shadow-2xl overflow-hidden z-40"
+                  className="fixed left-4 right-4 top-[72px] sm:absolute sm:top-full sm:left-auto sm:right-0 sm:mt-2 w-auto sm:w-[420px] lg:w-80 bg-[#121212] border border-white/5 rounded-2xl shadow-2xl overflow-hidden z-50 flex flex-col max-h-[85vh]"
                 >
-                  <div className="p-4 border-b border-white/5 flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-wider text-white font-mono">
+                  <div className="p-4 border-b border-white/5 flex items-center justify-between shrink-0">
+                    <span className="text-xs font-bold uppercase tracking-wider text-white font-mono truncate mr-2">
                       System Notifications ({unreadCount})
                     </span>
                     {unreadCount > 0 && (
                       <button
                         onClick={clearAllNotifications}
-                        className="text-[10px] font-mono text-brand hover:underline font-bold uppercase"
+                        className="text-[10px] font-mono text-brand hover:underline font-bold uppercase shrink-0"
                       >
                         Mark All Read
                       </button>
                     )}
                   </div>
 
-                  <div className="max-h-64 overflow-y-auto divide-y divide-white/5">
+                  <div className="overflow-y-auto divide-y divide-white/5 min-h-0 flex-1">
                     {notifications.length === 0 ? (
                       <div className="p-6 text-center text-white/30 text-xs">
                         No critical alerts pending.
@@ -146,13 +146,13 @@ export const Navbar: React.FC<NavbarProps> = ({
                       notifications.map(item => (
                         <div 
                           key={item.id} 
-                          className={`p-3 text-xs transition-colors hover:bg-white/5 ${item.read ? 'opacity-60' : 'bg-brand/5 border-l-2 border-brand'}`}
+                          className={`p-3 sm:p-4 text-xs transition-colors hover:bg-white/5 ${item.read ? 'opacity-60' : 'bg-brand/5 border-l-2 border-brand'}`}
                         >
-                          <div className="flex justify-between items-start gap-1">
-                            <span className="font-bold text-white leading-tight">{item.title}</span>
-                            <span className="text-[9px] text-white/30 whitespace-nowrap">{item.time}</span>
+                          <div className="flex justify-between items-start gap-3">
+                            <span className="font-bold text-white leading-tight break-words min-w-0 flex-1">{item.title}</span>
+                            <span className="text-[9px] text-white/30 whitespace-nowrap shrink-0 pt-0.5">{item.time}</span>
                           </div>
-                          <p className="text-white/50 mt-1 leading-snug">{item.desc}</p>
+                          <p className="text-white/50 mt-1.5 leading-snug break-words min-w-0">{item.desc}</p>
                           <div className="flex gap-2.5 mt-2 justify-end">
                             {!item.read && (
                               <button 

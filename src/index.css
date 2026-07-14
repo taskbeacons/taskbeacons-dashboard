@@ -122,5 +122,19 @@ a[class*="bg-white/5"]:focus {
   box-shadow: 0 0 0 3px rgba(0, 212, 180, 0.4) !important;
 }
 
+/* Hide scrollbar utility (used in Settings tabs on mobile) */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
 
+/* Minimum 44px touch targets for accessibility on mobile */
+@media (max-width: 1023px) {
+  button, a[role="button"], input[type="button"], input[type="submit"] {
+    min-height: 44px;
+  }
+}
 

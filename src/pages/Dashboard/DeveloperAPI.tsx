@@ -161,11 +161,11 @@ func main() {
             </pre>
           </div>
 
-          <div className="flex flex-wrap items-center justify-between gap-4 mt-6 pt-5 border-t border-white/5 font-mono text-[10px] text-white/35">
+          <div className="flex flex-col sm:flex-row flex-wrap items-start sm:items-center justify-between gap-3 mt-6 pt-5 border-t border-white/5 font-mono text-[10px] text-white/35">
             <span>Official Client Modules:</span>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {['npm i @taskbeacons/sdk', 'pip install taskbeacons', 'go get github.com/taskbeacons/sdk'].map(command => (
-                <span key={command} className="bg-black/40 border border-white/5 px-2.5 py-1 rounded-lg text-white/50">
+                <span key={command} className="bg-black/40 border border-white/5 px-2.5 py-1 rounded-lg text-white/50 whitespace-nowrap">
                   {command}
                 </span>
               ))}

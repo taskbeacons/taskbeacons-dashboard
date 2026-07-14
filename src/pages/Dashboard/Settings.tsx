@@ -43,25 +43,27 @@ export const Settings: React.FC = () => {
       </div>
 
       <div className="grid items-start grid-cols-1 gap-6 lg:grid-cols-4">
-        {/* Navigation Sidebar Left */}
-        <div className="bg-[#121212] border border-white/5 rounded-3xl p-4 space-y-1.5 font-mono text-xs">
+        {/* Navigation — horizontal scroll on mobile, vertical on desktop */}
+        <div className="bg-[#121212] border border-white/5 rounded-2xl lg:rounded-3xl p-2 lg:p-4 font-mono text-xs">
+          <div className="flex flex-row overflow-x-auto gap-1 lg:flex-col lg:space-y-1.5 lg:gap-0 scrollbar-none pb-0.5 lg:pb-0">
           {tabs.map(tab => {
             const Icon = tab.icon;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl uppercase font-bold tracking-wider text-left transition-all ${
+                className={`shrink-0 flex items-center gap-2 lg:gap-3 px-3 py-2 lg:py-2.5 rounded-xl uppercase font-bold tracking-wider text-left transition-all whitespace-nowrap ${
                   activeTab === tab.id
                     ? 'bg-brand/10 text-brand border border-brand/20'
                     : 'text-white/50 hover:text-white hover:bg-white/5 border border-transparent'
                 }`}
               >
                 <Icon size={14} className="shrink-0" />
-                <span>{tab.label}</span>
+                <span className="hidden sm:inline lg:inline">{tab.label}</span>
               </button>
             );
           })}
+          </div>
         </div>
 
         {/* Content Pane Right */}

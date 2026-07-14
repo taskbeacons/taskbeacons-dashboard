@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   Search, Bell, Settings, CheckCircle, 
-  Trash2, X, RefreshCw, Radio
+  Trash2, X, RefreshCw, Radio, Menu
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -21,6 +21,7 @@ interface NavbarProps {
   markRead: (id: string) => void;
   deleteNotification: (id: string) => void;
   clearAllNotifications: () => void;
+  onMenuOpen: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ 
@@ -28,7 +29,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   notifications, 
   markRead, 
   deleteNotification,
-  clearAllNotifications 
+  clearAllNotifications,
+  onMenuOpen
 }) => {
   const [showBellDropdown, setShowBellDropdown] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -42,11 +44,20 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <header className="h-16 bg-[#121212] border-b border-white/5 flex items-center justify-between px-6 sticky top-0 z-20">
+    <header className="h-16 bg-[#121212] border-b border-white/5 flex items-center justify-between px-4 md:px-6 sticky top-0 z-20 gap-3">
       {/* Page Title & Status */}
-      <div className="flex items-center gap-4">
-        <h1 className="text-sm font-black uppercase tracking-wider text-white font-mono">{title}</h1>
-        <div className="hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-mono font-semibold">
+      <div className="flex items-center gap-3 min-w-0">
+        {/* Hamburger — mobile only */}
+        <button
+          onClick={onMenuOpen}
+          className="lg:hidden text-white/40 hover:text-white p-2 hover:bg-white/5 rounded-xl transition-colors shrink-0"
+          aria-label="Open navigation"
+        >
+          <Menu size={18} />
+        </button>
+
+        <h1 className="text-sm font-black uppercase tracking-wider text-white font-mono truncate">{title}</h1>
+        <div className="hidden sm:flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-mono font-semibold shrink-0">
           <Radio size={10} className="animate-pulse" />
           SYSTEM STABLE
         </div>

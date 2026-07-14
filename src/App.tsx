@@ -66,6 +66,7 @@ const INITIAL_NOTIFICATIONS: NotificationItem[] = [
 const DashboardLayout: React.FC = () => {
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [notifications, setNotifications] = useState<NotificationItem[]>(INITIAL_NOTIFICATIONS);
 
   // Notifications State handlers
@@ -104,8 +105,23 @@ const DashboardLayout: React.FC = () => {
 
   return (
     <div className="flex min-h-screen bg-[#0a0a0a] text-white">
+      {/* Mobile backdrop — closes drawer on tap outside */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+          onClick={() => setMobileOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
       {/* Sidebar navigation */}
-      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} unreadCount={unreadCount} />
+      <Sidebar
+        collapsed={collapsed}
+        setCollapsed={setCollapsed}
+        unreadCount={unreadCount}
+        mobileOpen={mobileOpen}
+        setMobileOpen={setMobileOpen}
+      />
 
       {/* Main pane content */}
       <div className="flex-1 flex flex-col min-w-0">
@@ -115,9 +131,10 @@ const DashboardLayout: React.FC = () => {
           markRead={markRead}
           deleteNotification={deleteNotification}
           clearAllNotifications={clearAllNotifications}
+          onMenuOpen={() => setMobileOpen(true)}
         />
         
-        <main className="flex-1 overflow-y-auto p-6 md:p-8 bg-[#0a0a0a] bg-grid-pattern relative">
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 bg-[#0a0a0a] bg-grid-pattern relative">
           {/* Ambient light glow */}
           <div className="absolute top-0 left-1/4 w-[600px] h-[300px] bg-brand/5 blur-[120px] rounded-full pointer-events-none" />
           
@@ -174,3 +191,4 @@ export default function App() {
     </BrowserRouter>
   );
 }
+

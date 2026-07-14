@@ -271,7 +271,7 @@ export const Profile: React.FC = () => {
         </div>
 
         {/* Action Controls */}
-        <div className="flex justify-end gap-3 font-mono">
+        <div className="flex flex-wrap justify-end gap-3 font-mono">
           <button
             type="button"
             onClick={handleCancel}

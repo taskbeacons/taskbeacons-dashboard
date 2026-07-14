@@ -155,25 +155,26 @@ export const Agents: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="relative">
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="relative flex-1 min-w-[180px]">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
             <input
               type="text"
               placeholder="Search agent logs, roles..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-[#121212] border border-white/5 pl-9 pr-4 py-2 rounded-xl text-xs text-white placeholder-white/20 focus:outline-none focus:border-brand/40 font-mono"
+              className="w-full bg-[#121212] border border-white/5 pl-9 pr-4 py-2 rounded-xl text-xs text-white placeholder-white/20 focus:outline-none focus:border-brand/40 font-mono"
             />
           </div>
 
           <button
             onClick={() => setShowCreateModal(true)}
-            className="bg-[#00d4b4] hover:bg-[#00b89e] text-[#0a0a0a] font-bold text-xs uppercase tracking-wider px-4 py-2 rounded-xl flex items-center gap-2 transition-all"
+            className="bg-[#00d4b4] hover:bg-[#00b89e] text-[#0a0a0a] font-bold text-xs uppercase tracking-wider px-4 py-2 rounded-xl flex items-center gap-2 transition-all shrink-0"
           >
             <Plus size={14} /> CREATE AGENT
           </button>
         </div>
+
       </div>
 
       {/* Agents Grid List */}

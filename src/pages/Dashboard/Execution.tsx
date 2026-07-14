@@ -27,7 +27,7 @@ export const Execution: React.FC = () => {
   const toast = useToast();
   const [logs, setLogs] = useState<string[]>(INITIAL_MOCK_LOGS);
   const [isLiveStreaming, setIsLiveStreaming] = useState(true);
-  const terminalEndRef = useRef<HTMLDivElement>(null);
+  const logsContainerRef = useRef<HTMLDivElement>(null);
 
   // Resource metrics simulation
   const [metricsHistory, setMetricsHistory] = useState<{ time: string; cpu: number; ram: number }[]>([
@@ -61,8 +61,12 @@ export const Execution: React.FC = () => {
   }, [isLiveStreaming]);
 
   useEffect(() => {
-    if (terminalEndRef.current) {
-      terminalEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (logsContainerRef.current) {
+      const container = logsContainerRef.current;
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: 'smooth'
+      });
     }
   }, [logs]);
 
@@ -88,10 +92,10 @@ export const Execution: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col w-full sm:flex-row sm:w-auto sm:flex-wrap items-stretch sm:items-center gap-3">
           <button
             onClick={() => setIsLiveStreaming(!isLiveStreaming)}
-            className={`px-4 py-2 rounded-xl text-xs font-bold font-mono tracking-wider uppercase transition-all flex items-center gap-2 border ${
+            className={`w-full sm:w-auto justify-center px-4 py-2 rounded-xl text-xs font-bold font-mono tracking-wider uppercase transition-all flex items-center gap-2 border ${
               isLiveStreaming 
                 ? 'bg-brand/10 border-brand/20 text-brand' 
                 : 'bg-white/5 border-white/10 text-white/50'
@@ -102,13 +106,13 @@ export const Execution: React.FC = () => {
           </button>
           <button
             onClick={handleDownloadLogs}
-            className="px-4 py-2 bg-white/5 border border-white/10 hover:bg-white/10 text-white rounded-xl text-xs font-bold font-mono uppercase flex items-center gap-2 transition-all"
+            className="w-full sm:w-auto justify-center px-4 py-2 bg-white/5 border border-white/10 hover:bg-white/10 text-white rounded-xl text-xs font-bold font-mono uppercase flex items-center gap-2 transition-all"
           >
             <Download size={14} /> DOWNLOAD
           </button>
           <button
             onClick={handleClearLogs}
-            className="px-4 py-2 border border-red-500/20 hover:border-red-500/40 text-red-400 bg-red-500/5 rounded-xl text-xs font-bold font-mono uppercase flex items-center gap-2 transition-all"
+            className="w-full sm:w-auto justify-center px-4 py-2 border border-red-500/20 hover:border-red-500/40 text-red-400 bg-red-500/5 rounded-xl text-xs font-bold font-mono uppercase flex items-center gap-2 transition-all"
           >
             <Trash2 size={14} /> CLEAR
           </button>
@@ -135,7 +139,10 @@ export const Execution: React.FC = () => {
             )}
           </div>
 
-          <div className="flex-1 p-6 overflow-y-auto font-mono text-[11px] leading-relaxed text-white/60 space-y-2 select-text">
+          <div 
+            ref={logsContainerRef}
+            className="flex-1 p-6 overflow-y-auto font-mono text-[11px] leading-relaxed text-white/60 space-y-2 select-text"
+          >
             {logs.length === 0 ? (
               <div className="text-white/20 text-center py-20 uppercase tracking-wider">
                 Console logs are empty.
@@ -155,7 +162,6 @@ export const Execution: React.FC = () => {
                 );
               })
             )}
-            <div ref={terminalEndRef}></div>
           </div>
         </div>
 

@@ -136,7 +136,7 @@ const DashboardLayout: React.FC = () => {
         
         <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 bg-[#0a0a0a] bg-grid-pattern relative">
           {/* Ambient light glow */}
-          <div className="absolute top-0 left-1/4 w-[600px] h-[300px] bg-brand/5 blur-[120px] rounded-full pointer-events-none" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] max-w-[600px] h-[150px] md:h-[300px] bg-brand/5 blur-[80px] md:blur-[120px] rounded-full pointer-events-none" />
           
           <div className="relative z-10 max-w-7xl mx-auto">
             <Routes>

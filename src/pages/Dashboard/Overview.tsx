@@ -57,10 +57,10 @@ export const Overview: React.FC = () => {
               Monitor specialized AI agents, manage execution pipelines, and optimize multi-agent task structures.
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row flex-wrap sm:items-center gap-3">
             <button
               onClick={toggleWorkforce}
-              className={`px-4 py-2 rounded-xl text-xs font-bold font-mono tracking-wider uppercase transition-all flex items-center gap-2 border ${
+              className={`w-full sm:w-auto justify-center px-4 py-2 rounded-xl text-xs font-bold font-mono tracking-wider uppercase transition-all flex items-center gap-2 border ${
                 workforceStatus === 'ACTIVE' 
                   ? 'bg-brand/10 border-brand/20 text-brand hover:bg-brand/20' 
                   : 'bg-amber-500/10 border-amber-500/20 text-amber-400 hover:bg-amber-500/20'
@@ -72,7 +72,7 @@ export const Overview: React.FC = () => {
             <button
               onClick={handleTuneSystem}
               disabled={isSystemTuning}
-              className="px-4 py-2 rounded-xl text-xs font-bold font-mono tracking-wider uppercase transition-all bg-white/5 border border-white/10 text-white hover:bg-white/10 disabled:opacity-50 flex items-center gap-2"
+              className="w-full sm:w-auto justify-center px-4 py-2 rounded-xl text-xs font-bold font-mono tracking-wider uppercase transition-all bg-white/5 border border-white/10 text-white hover:bg-white/10 disabled:opacity-50 flex items-center gap-2"
             >
               <RefreshCw size={14} className={isSystemTuning ? 'animate-spin text-brand' : ''} />
               OPTIMIZE ROUTING

@@ -26,6 +26,7 @@ import { Profile } from './pages/Dashboard/Profile';
 import { Settings } from './pages/Dashboard/Settings';
 import { DeveloperAPI } from './pages/Dashboard/DeveloperAPI';
 import { Help } from './pages/Dashboard/Help';
+import { NotFound } from './pages/Dashboard/NotFound';
 
 // Initial Mock Notifications
 const INITIAL_NOTIFICATIONS: NotificationItem[] = [
@@ -159,6 +160,7 @@ const DashboardLayout: React.FC = () => {
               <Route path="/settings" element={<Settings />} />
               <Route path="/developer" element={<DeveloperAPI />} />
               <Route path="/help" element={<Help />} />
+              <Route path="*" element={<NotFound onMenuOpen={() => setMobileOpen(true)} />} />
             </Routes>
           </div>
         </main>
